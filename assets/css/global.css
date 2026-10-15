@@ -45,6 +45,7 @@
   --filet: rgba(25, 22, 19, 0.16);
   --police: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
   --marge: clamp(20px, 4.5vw, 64px);
+  --hauteur-entete: 88px; /* 20 px de marge + 48 px de contenu + 20 px */
 }
 
 /* ---------- Base ---------- */
@@ -69,6 +70,14 @@ a {
   font-size: 17px;
   line-height: 1.6;
   overflow-x: clip;
+}
+
+/* Première section de chaque page : elle remplit l'écran sous l'en-tête,
+   la section suivante n'apparaît qu'en commençant à défiler */
+.premier-ecran {
+  min-height: calc(100vh - var(--hauteur-entete));
+  min-height: calc(100svh - var(--hauteur-entete));
+  box-sizing: border-box;
 }
 
 /* Bloc centré de 1440 px maximum avec les marges latérales du site */
@@ -190,19 +199,31 @@ a {
 
 /* ---------- En-tête ---------- */
 
+/* Trois colonnes : logo | menu centré sur la page | bouton « Disponible » */
 .entete {
+  position: relative;
+  z-index: 20;
   max-width: 1440px;
   margin: 0 auto;
   padding: 20px var(--marge);
   box-sizing: border-box;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
   gap: 8px 40px;
 }
 
+/* Sur grand écran, le contenu du menu se place directement dans la grille de l'en-tête */
+.menu {
+  display: contents;
+}
+
+.entete__dispo {
+  justify-self: end;
+}
+
 .logo {
+  justify-self: start;
   display: inline-flex;
   align-items: center;
   min-height: 48px;
@@ -243,6 +264,93 @@ a {
   height: 9px;
   border-radius: 50%;
   background: var(--accent);
+}
+
+/* Bouton du menu burger (petits écrans, voir menu.js) */
+.burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  margin: 0 -10px 0 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--encre);
+  cursor: pointer;
+}
+
+.burger__barre {
+  display: block;
+  width: 24px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transition: transform .25s ease, opacity .2s ease;
+}
+
+/* Les trois barres forment une croix quand le menu est ouvert */
+.menu-ouvert .burger__barre:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.menu-ouvert .burger__barre:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-ouvert .burger__barre:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.burger:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (max-width: 960px) {
+  .entete {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .burger {
+    display: flex;
+  }
+
+  /* Le menu devient un panneau qui se déplie sous l'en-tête */
+  .menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 28px;
+    padding: 8px var(--marge) 36px;
+    background: var(--creme);
+    border-bottom: 1px solid var(--filet);
+    box-shadow: 0 24px 40px rgba(25, 22, 19, 0.08);
+  }
+
+  .menu-ouvert .menu {
+    display: flex;
+  }
+
+  .nav-principale {
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  .nav-principale a {
+    min-height: 52px;
+  }
 }
 
 /* ---------- Contact et pied de page ---------- */
@@ -355,7 +463,8 @@ a {
   }
 
   .btn,
-  .fleche {
+  .fleche,
+  .burger__barre {
     transition: none;
   }
 }

@@ -35,6 +35,7 @@
 
 /* Sommaire collant : le projet en cours de lecture est mis en avant (voir projets.js) */
 .sommaire {
+  container-type: inline-size;
   position: sticky;
   top: 40px;
   align-self: start;
@@ -74,12 +75,15 @@
   gap: 4px;
 }
 
+/* Les titres restent sur une ligne : la police diminue si la colonne est trop étroite
+   (100cqi = largeur du sommaire, 48 px = barre + point + espaces, 7 ≈ longueur de « Drag Bordeaux » en em) */
 .sommaire__liste a {
   display: inline-flex;
   align-items: center;
   gap: 14px;
   min-height: 48px;
-  font-size: clamp(26px, 2.6vw, 38px);
+  white-space: nowrap;
+  font-size: min(clamp(26px, 2.6vw, 38px), calc((100cqi - 48px) / 7));
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: -0.03em;
@@ -141,7 +145,7 @@
 .projet__media--dose { background: #FBEDB8; }
 .projet__media--drag { background: #381261; }
 
-/* Vidéo éventuelle d'un projet : elle remplit le cadre */
+/* Vidéo du projet : elle remplit le cadre */
 .projet__media video {
   position: absolute;
   inset: 0;
@@ -265,12 +269,37 @@
   padding: clamp(96px, 9vw, 136px) 0;
 }
 
+/* Le court-métrage (format paysage) à gauche, volontairement moins haut que
+   les deux infographies (format portrait) groupées à droite */
 .autres__liste {
   display: flex;
-  flex-wrap: wrap;
   align-items: flex-start;
-  gap: 56px 40px;
+  gap: 56px clamp(24px, 3vw, 40px);
   margin-top: clamp(40px, 4vw, 56px);
+}
+
+.autre--film {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.autres__infographies {
+  flex: 1.33 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(16px, 3vw, 40px);
+}
+
+/* Largeurs proportionnelles au format de chaque infographie : elles ont la même hauteur */
+.autre--beeguard {
+  flex: 0.707 1 0;
+  min-width: 0;
+}
+
+.autre--numerique {
+  flex: 0.621 1 0;
+  min-width: 0;
 }
 
 .autre {
@@ -278,11 +307,6 @@
   flex-direction: column;
   gap: 14px;
 }
-
-/* Largeurs proportionnelles au format de chaque image */
-.autre--film { flex: 1.529 1 306px; }
-.autre--beeguard { flex: 0.707 1 141px; }
-.autre--numerique { flex: 0.621 1 124px; }
 
 .autre__media {
   margin: 0;
@@ -336,6 +360,33 @@
 
   .cache-mobile {
     display: none;
+  }
+}
+
+/* Le court-métrage passe au-dessus, les infographies restent côte à côte */
+@media (max-width: 760px) {
+  .autres__liste {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .autre--film,
+  .autres__infographies {
+    flex: none;
+  }
+}
+
+/* Écran vraiment étroit : les infographies l'une sous l'autre */
+@media (max-width: 359px) {
+  .autres__infographies {
+    flex-direction: column;
+    gap: 56px;
+  }
+
+  .autre--beeguard,
+  .autre--numerique {
+    flex: none;
+    width: 100%;
   }
 }
 

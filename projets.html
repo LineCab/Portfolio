@@ -6,6 +6,7 @@
 <title>Projets, Line Cabaret designer UI/UX</title>
 <link rel="stylesheet" href="assets/css/global.css">
 <link rel="stylesheet" href="assets/css/projets.css">
+<script src="assets/js/menu.js" defer></script>
 <script src="assets/js/projets.js" defer></script>
 </head>
 <body>
@@ -13,18 +14,25 @@
 
 <header class="entete">
 <a class="logo" href="index.html">Line Cabaret</a>
+<button class="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Ouvrir le menu">
+<span class="burger__barre"></span>
+<span class="burger__barre"></span>
+<span class="burger__barre"></span>
+</button>
+<div class="menu" id="menu">
 <nav class="nav-principale" aria-label="Navigation principale">
 <a class="lnk" href="index.html">Accueil</a>
 <a class="lnk" href="#top" aria-current="page">Projets</a>
 <a class="lnk" href="a-propos.html">À propos</a>
 </nav>
-<a class="btn btn--contour btn--petit" href="#contact">
+<a class="btn btn--contour btn--petit entete__dispo" href="#contact">
 <span class="pastille" aria-hidden="true"></span>
 <span>Disponible dès aujourd'hui</span>
 </a>
+</div>
 </header>
 
-<section class="conteneur intro-projets" aria-labelledby="projets-titre">
+<section class="conteneur intro-projets premier-ecran" aria-labelledby="projets-titre">
 <h1 id="projets-titre" class="titre-page">Projets</h1>
 <div class="intro-projets__texte">
 <p class="chapo">[Une courte introduction : ce que l’on découvre sur cette page, en deux ou trois lignes.]</p>
@@ -52,7 +60,7 @@
 
 <article id="p-indygo" class="projet" aria-labelledby="t-indygo">
 <figure class="projet__media projet__media--indygo">
-<!-- Pour ajouter une vidéo : <video src="assets/videos/indygo.mp4"></video> -->
+<video src="assets/videos/indygo.mp4" muted loop playsinline preload="metadata"></video>
 <button class="lecture" type="button" aria-label="Lire la vidéo">
 <svg class="lecture__pause" width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><rect x="2.5" y="1.5" width="3" height="11" rx="1"></rect><rect x="8.5" y="1.5" width="3" height="11" rx="1"></rect></svg>
 <svg class="lecture__play" width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><path d="M3.5 1.8v10.4l9-5.2z"></path></svg>
@@ -73,6 +81,7 @@
 
 <article id="p-holoforge" class="projet" aria-labelledby="t-holoforge">
 <figure class="projet__media projet__media--holoforge">
+<video src="assets/videos/holoforge.mp4" muted loop playsinline preload="metadata"></video>
 <button class="lecture" type="button" aria-label="Lire la vidéo">
 <svg class="lecture__pause" width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><rect x="2.5" y="1.5" width="3" height="11" rx="1"></rect><rect x="8.5" y="1.5" width="3" height="11" rx="1"></rect></svg>
 <svg class="lecture__play" width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><path d="M3.5 1.8v10.4l9-5.2z"></path></svg>
@@ -93,6 +102,7 @@
 
 <article id="p-dose" class="projet" aria-labelledby="t-dose">
 <figure class="projet__media projet__media--dose">
+<video src="assets/videos/dose-ta-dose.mp4" muted loop playsinline preload="metadata"></video>
 <button class="lecture" type="button" aria-label="Lire la vidéo">
 <svg class="lecture__pause" width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><rect x="2.5" y="1.5" width="3" height="11" rx="1"></rect><rect x="8.5" y="1.5" width="3" height="11" rx="1"></rect></svg>
 <svg class="lecture__play" width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><path d="M3.5 1.8v10.4l9-5.2z"></path></svg>
@@ -113,6 +123,7 @@
 
 <article id="p-drag" class="projet" aria-labelledby="t-drag">
 <figure class="projet__media projet__media--drag">
+<video src="assets/videos/drag-bordeaux.mp4" muted loop playsinline preload="metadata"></video>
 <button class="lecture" type="button" aria-label="Lire la vidéo">
 <svg class="lecture__pause" width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><rect x="2.5" y="1.5" width="3" height="11" rx="1"></rect><rect x="8.5" y="1.5" width="3" height="11" rx="1"></rect></svg>
 <svg class="lecture__play" width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><path d="M3.5 1.8v10.4l9-5.2z"></path></svg>
@@ -148,19 +159,21 @@
 <a class="lien" href="#">Voir le court-métrage <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 10.5l7-7M5 3.5h5.5V9"></path></svg></a>
 </article>
 
+<div class="autres__infographies">
+
 <article class="autre autre--beeguard" aria-labelledby="t-info1">
 <figure class="autre__media"><img src="assets/images/projets/infographie-beeguard.webp" width="640" height="905" alt="Infographie BeeGuard"></figure>
 <p class="surtitre autre__date">INFOGRAPHIE · 2024</p>
 <h3 id="t-info1" class="autre__titre">BeeGuard</h3>
-<a class="lien" href="/_blob/bb30da3317c53ad0720a0ee1f10b7261" target="_blank" rel="noopener">Voir l’infographie <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 10.5l7-7M5 3.5h5.5V9"></path></svg></a>
 </article>
 
 <article class="autre autre--numerique" aria-labelledby="t-info2">
 <figure class="autre__media"><img src="assets/images/projets/infographie-numerique-ecole.webp" width="640" height="1030" alt="Infographie : comment le numérique favorise-t-il l’apprentissage des primaires ?"></figure>
 <p class="surtitre autre__date">INFOGRAPHIE · 2024</p>
 <h3 id="t-info2" class="autre__titre">Le numérique à l’école primaire</h3>
-<a class="lien" href="/_blob/2518ab5490785dcc499554332225d533" target="_blank" rel="noopener">Voir l’infographie <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 10.5l7-7M5 3.5h5.5V9"></path></svg></a>
 </article>
+
+</div>
 
 </div>
 </div>

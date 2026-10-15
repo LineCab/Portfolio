@@ -21,7 +21,6 @@
 
   const el = {
     scene: $('.scene'),
-    traces: $$('.trace'),
     halo: $('.halo'),
     ombre: $('.ombre-portee'),
     ordinateur: $('.ordinateur'),
@@ -148,7 +147,6 @@
     const faceVisible = ouv > LID_TRANCHE;
     const ecranOff = 1 - clamp((r2 - 0.82) / 0.18, 0, 1);
 
-    const tr = (r, t) => ((r <= 0 || r >= 1) ? 0 : Math.min(1, (1 - t) * 4));
     const o = [0, 1, 2, 3].map((k) => clamp(1 - Math.abs(pos - k) * 2.2, 0, 1));
     const y = [0, 1, 2, 3].map((k) => ((k - pos) * 6).toFixed(2));
     const active = Math.round(pos);
@@ -223,7 +221,6 @@
       shW: (20 * (0.35 + 0.65 * cosY) * sc).toFixed(2),
       shY: (36 * sc + 2).toFixed(2),
       shO: (0.9 * op).toFixed(3),
-      traces: [[(1 - t0).toFixed(4), tr(r0, t0).toFixed(3)], [(1 - t1).toFixed(4), tr(r1, t1).toFixed(3)]],
       lpX: lapX.toFixed(1), lpY: lapY.toFixed(1), lpW: lapW.toFixed(1), lpH: lapH.toFixed(1),
       lpTr,
       lo: lo.toFixed(3),
@@ -249,8 +246,6 @@
 
     regler(zone, { hauteur: v.zoneH + 'px' });
     regler(el.scene, { hauteur: v.stageH + 'px' });
-
-    el.traces.forEach((trace, i) => regler(trace, { decalage: v.traces[i][0], opacite: v.traces[i][1] }));
 
     regler(el.halo, { x: v.phX + 'px', haut: v.phTop, opacite: v.phO });
     regler(el.ombre, { x: v.phX + 'px', haut: v.phTop, decalage: v.shY + 'cqh', largeur: v.shW + 'cqh', opacite: v.shO });

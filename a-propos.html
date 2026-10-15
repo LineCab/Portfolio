@@ -6,24 +6,32 @@
 <title>À propos &amp; parcours — Line Cabaret</title>
 <link rel="stylesheet" href="assets/css/global.css">
 <link rel="stylesheet" href="assets/css/a-propos.css">
+<script src="assets/js/menu.js" defer></script>
 </head>
 <body>
 <div id="top" class="page">
 
 <header class="entete">
 <a class="logo" href="index.html">Line Cabaret</a>
+<button class="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Ouvrir le menu">
+<span class="burger__barre"></span>
+<span class="burger__barre"></span>
+<span class="burger__barre"></span>
+</button>
+<div class="menu" id="menu">
 <nav class="nav-principale" aria-label="Navigation principale">
 <a class="lnk" href="index.html">Accueil</a>
 <a class="lnk" href="projets.html">Projets</a>
 <a class="lnk" href="#top" aria-current="page">À propos</a>
 </nav>
-<a class="btn btn--contour btn--petit" href="#contact">
+<a class="btn btn--contour btn--petit entete__dispo" href="#contact">
 <span class="pastille" aria-hidden="true"></span>
 <span>Disponible dès aujourd'hui</span>
 </a>
+</div>
 </header>
 
-<section class="presentation" aria-labelledby="apropos-h1">
+<section class="presentation premier-ecran" aria-labelledby="apropos-h1">
 <div class="conteneur">
 <div class="presentation__scene">
 <img class="photo photo--equitation" src="assets/images/a-propos/equitation.webp" alt="">

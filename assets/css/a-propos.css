@@ -8,7 +8,9 @@
   padding: clamp(24px, 3vw, 40px) 0 clamp(88px, 8.5vw, 120px);
 }
 
+/* La scène sert de repère aux photos : 1cqi = 1 % de sa largeur */
 .presentation__scene {
+  container-type: inline-size;
   position: relative;
   padding-top: clamp(40px, 6vw, 96px);
   display: flex;
@@ -32,6 +34,7 @@
   margin-top: clamp(-100px, -5.5vw, -32px);
   border-radius: 4px;
   object-fit: cover;
+  animation: flotter-doux 10s ease-in-out -2s infinite;
 }
 
 .presentation__texte {
@@ -44,48 +47,117 @@
   text-transform: uppercase;
 }
 
-/* Photos dispersées autour du titre */
+/* Photos dispersées autour du titre. Positions et tailles en % de la largeur de
+   la scène (cqi) : la composition de la maquette 1440 px garde ses proportions
+   sur tous les écrans. Elles flottent très légèrement, chacune à son rythme. */
 .photo {
   position: absolute;
   z-index: 0;
   display: block;
-  margin-top: clamp(-100px, -5.5vw, -32px);
   border-radius: 4px;
   object-fit: cover;
+  animation: flotter 7s ease-in-out infinite;
 }
 
 .photo--equitation {
-  left: 1150px;
-  top: 79px;
-  width: 156px;
-  height: 195px;
+  left: 87.65cqi;
+  top: 0;
+  width: 11.89cqi;
+  height: 14.86cqi;
 }
 
 .photo--randonnee {
-  left: 33px;
-  top: 83px;
-  width: 139px;
-  height: 202px;
+  left: 2.52cqi;
+  top: 0.29cqi;
+  width: 10.59cqi;
+  height: 15.4cqi;
+  animation-duration: 8s;
+  animation-delay: -3s;
 }
 
 .photo--moto {
-  left: 205px;
-  top: 375px;
-  width: 125px;
-  height: 180px;
+  left: 15.63cqi;
+  top: 22.55cqi;
+  width: 9.53cqi;
+  height: 13.72cqi;
+  animation-duration: 6.5s;
+  animation-delay: -1.5s;
+  animation-direction: reverse;
 }
 
 .photo--voyage {
-  left: 1057px;
-  top: 386px;
-  width: 161px;
-  height: 226px;
+  left: 80.56cqi;
+  top: 23.38cqi;
+  width: 12.27cqi;
+  height: 17.23cqi;
+  animation-duration: 9s;
+  animation-delay: -5s;
 }
 
-/* Sur petit écran, les photos dispersées chevaucheraient le titre */
-@media (max-width: 900px) {
-  .photo {
-    display: none;
+@keyframes flotter {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+
+  50% {
+    transform: translate3d(0, -6px, 0) rotate(0.8deg);
+  }
+}
+
+@keyframes flotter-doux {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -4px, 0);
+  }
+}
+
+/* Mobile : le titre dépasse davantage du portrait et les photos, plus grandes
+   que la simple réduction de la maquette, encadrent le portrait */
+@media (max-width: 600px) {
+  .presentation__portrait {
+    margin-top: -10px;
+  }
+
+  .photo--randonnee {
+    left: 0;
+    top: 96px;
+    width: 72px;
+    height: 96px;
+  }
+
+  .photo--moto {
+    left: 18px;
+    top: 200px;
+    width: 62px;
+    height: 82px;
+  }
+
+  .photo--equitation {
+    left: auto;
+    right: 0;
+    top: 102px;
+    width: 70px;
+    height: 92px;
+  }
+
+  .photo--voyage {
+    left: auto;
+    right: 14px;
+    top: 202px;
+    width: 64px;
+    height: 88px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photo,
+  .presentation__portrait {
+    animation: none;
   }
 }
 
@@ -100,22 +172,23 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 12px;
+  gap: clamp(8px, 1vw, 12px);
   max-width: 1040px;
   margin: 28px auto 0;
   padding: 0;
   list-style: none;
 }
 
+/* Taille du texte : 28 px sur ordinateur, réduite jusqu'à 16 px sur mobile */
 .etiquette {
   display: inline-flex;
   align-items: center;
-  min-height: clamp(48px, 4.4vw, 64px);
-  padding: 0 clamp(18px, 2vw, 28px);
+  min-height: clamp(40px, 4.4vw, 64px);
+  padding: 0 clamp(14px, 2vw, 28px);
   border: 1.5px solid var(--encre);
   border-radius: 999px;
   box-sizing: border-box;
-  font-size: 28px;
+  font-size: clamp(16px, 2vw + 8px, 28px);
   font-weight: 500;
   font-stretch: 112%;
   line-height: 1;
@@ -124,15 +197,15 @@
 }
 
 .etiquette--active {
-  gap: 12px;
+  gap: 0.43em;
   border-color: var(--accent);
   background: var(--accent);
   color: var(--encre);
-  font-size: clamp(18px, 2.2vw, 32px);
 }
 
-.etiquette--active > span {
-  font-size: 28px;
+.etiquette svg {
+  width: 0.79em;
+  height: 0.79em;
 }
 
 /* ---------- Parcours ---------- */
