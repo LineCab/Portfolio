@@ -271,20 +271,19 @@
 
 /* Le court-métrage (format paysage) à gauche, volontairement moins haut que
    les deux infographies (format portrait) groupées à droite. Les trois projets
-   partagent les mêmes lignes de grille (image, date, titre, texte, lien) :
-   le court-métrage est aligné en bas des infographies, les dates et titres
-   sont alignés entre eux. */
+   partagent deux lignes de grille : les images (le court-métrage est aligné en
+   bas des infographies), puis les textes, qui commencent tous à la même hauteur. */
 .autres__liste {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.33fr);
-  grid-template-rows: repeat(5, auto);
-  gap: 14px clamp(24px, 3vw, 40px);
+  grid-template-rows: auto auto;
+  gap: 20px clamp(24px, 3vw, 40px);
   margin-top: clamp(40px, 4vw, 56px);
 }
 
 .autre,
 .autres__infographies {
-  grid-row: span 5;
+  grid-row: span 2;
   display: grid;
   grid-template-rows: subgrid;
 }
@@ -310,8 +309,14 @@
   border-radius: 6px;
 }
 
+.autre__infos {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
 .autre__date {
-  margin-top: 6px;
   color: var(--gris-clair);
 }
 
@@ -332,8 +337,6 @@
 }
 
 .autre .lien {
-  justify-self: start;
-  align-self: start;
   color: var(--creme);
 }
 
@@ -367,7 +370,7 @@
     grid-row: auto;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 20px;
   }
 
   .autres__infographies {

@@ -486,6 +486,7 @@
 
 .plus {
   padding-top: clamp(48px, 5vw, 72px);
+  padding-bottom: clamp(96px, 9vw, 136px);
 }
 
 .plus__carte {
@@ -497,8 +498,8 @@
   align-items: flex-end;
   gap: 32px 64px;
   padding: clamp(36px, 5vw, 72px) clamp(24px, 4.5vw, 64px);
+  border: 3px solid var(--accent);
   border-radius: clamp(16px, 2vw, 28px);
-  background: var(--accent);
   color: var(--encre);
 }
 
@@ -517,44 +518,6 @@
 
 .plus__texte .chapo {
   font-weight: 500;
-}
-
-/* ---------- À propos ---------- */
-
-.apropos {
-  padding: clamp(96px, 9vw, 136px) 0;
-}
-
-.apropos__contenu {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 32px 80px;
-}
-
-.apropos__texte {
-  flex: 0 1 620px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 24px;
-}
-
-.apropos__phrase {
-  margin: 0;
-  font-size: clamp(22px, 2.2vw, 32px);
-  font-weight: 600;
-  line-height: 1.28;
-  letter-spacing: -0.02em;
-}
-
-/* Mot surligné en vert */
-.surligne {
-  padding: 0 0.15em;
-  background: var(--accent);
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
 }
 
 /* ---------- Responsive ---------- */

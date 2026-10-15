@@ -4,8 +4,10 @@
 
 /* ---------- Présentation : titre, portrait et photos ---------- */
 
-/* La section remplit l'écran sous l'en-tête et son contenu y est centré */
+/* La section remplit l'écran sous l'en-tête et son contenu y est centré.
+   Elle sert aussi de repère aux photos dispersées (à partir de 601 px). */
 .presentation {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -16,11 +18,8 @@
   width: 100%;
 }
 
-/* La scène sert de repère aux photos : 1cqi = 1 % de sa largeur */
 .presentation__scene {
-  container-type: inline-size;
   position: relative;
-  padding-top: clamp(40px, 6vw, 96px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -54,53 +53,57 @@
   text-transform: uppercase;
 }
 
-/* Photos dispersées autour du titre. Positions et tailles en % de la largeur de
-   la scène (cqi) : la composition de la maquette 1440 px garde ses proportions
-   sur tous les écrans. */
+/* Photos dispersées. À partir de 601 px, elles occupent les quatre coins du
+   premier écran (positions en % de la section) et leur taille suit la largeur
+   de l'écran. Sur mobile, elles encadrent le portrait. */
 .photo {
   position: absolute;
   z-index: 0;
   display: block;
+  aspect-ratio: 3 / 4;
   border-radius: 4px;
   object-fit: cover;
 }
 
-.photo--equitation {
-  left: 87.65cqi;
-  top: 0;
-  width: 11.89cqi;
-  height: 14.86cqi;
-}
-
-.photo--randonnee {
-  left: 2.52cqi;
-  top: 0.29cqi;
-  width: 10.59cqi;
-  height: 15.4cqi;
-}
-
-.photo--moto {
-  left: 15.63cqi;
-  top: 22.55cqi;
-  width: 9.53cqi;
-  height: 13.72cqi;
-}
-
-.photo--voyage {
-  left: 80.56cqi;
-  top: 23.38cqi;
-  width: 12.27cqi;
-  height: 17.23cqi;
-}
-
-/* Mobile : le titre dépasse davantage du portrait et les photos, plus grandes
-   que la simple réduction de la maquette, encadrent le portrait */
-@media (max-width: 600px) {
-  /* Pas d'espace au-dessus du titre : la composition reste centrée dans l'écran */
+@media (min-width: 601px) {
   .presentation__scene {
-    padding-top: 0;
+    position: static;
   }
 
+  .photo--randonnee {
+    left: 2%;
+    top: 6%;
+    width: clamp(110px, 10vw, 165px);
+  }
+
+  .photo--equitation {
+    right: 2%;
+    top: 4%;
+    width: clamp(115px, 11vw, 180px);
+  }
+
+  .photo--moto {
+    left: 8%;
+    bottom: 7%;
+    width: clamp(100px, 9vw, 150px);
+  }
+
+  .photo--voyage {
+    right: 9%;
+    bottom: 5%;
+    width: clamp(115px, 11.5vw, 190px);
+  }
+}
+
+/* Écran large mais très bas (téléphone à l'horizontale) : pas la place pour les photos */
+@media (min-width: 601px) and (max-height: 600px) {
+  .photo {
+    display: none;
+  }
+}
+
+/* Mobile : le titre dépasse davantage du portrait et les photos encadrent le portrait */
+@media (max-width: 600px) {
   .presentation__portrait {
     margin-top: -10px;
   }
@@ -120,7 +123,6 @@
   }
 
   .photo--equitation {
-    left: auto;
     right: 0;
     top: 62px;
     width: 70px;
@@ -128,14 +130,12 @@
   }
 
   .photo--voyage {
-    left: auto;
     right: 14px;
     top: 162px;
     width: 64px;
     height: 88px;
   }
 }
-
 
 /* ---------- Domaines ---------- */
 
