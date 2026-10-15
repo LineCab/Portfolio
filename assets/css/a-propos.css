@@ -4,10 +4,8 @@
 
 /* ---------- Présentation : titre, portrait et photos ---------- */
 
-/* La section remplit l'écran sous l'en-tête et son contenu y est centré.
-   Elle sert aussi de repère aux photos dispersées (à partir de 601 px). */
+/* La section remplit l'écran sous l'en-tête et son contenu y est centré */
 .presentation {
-  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -18,8 +16,11 @@
   width: 100%;
 }
 
+/* La scène sert de repère aux photos : 1cqi = 1 % de sa largeur */
 .presentation__scene {
+  container-type: inline-size;
   position: relative;
+  padding-top: clamp(40px, 6vw, 96px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -53,89 +54,126 @@
   text-transform: uppercase;
 }
 
-/* Photos dispersées. À partir de 601 px, elles occupent les quatre coins du
-   premier écran (positions en % de la section) et leur taille suit la largeur
-   de l'écran. Sur mobile, elles encadrent le portrait. */
+/* Photos dispersées autour du titre. Positions et tailles en % de la largeur de
+   la scène (cqi) : la composition de la maquette 1440 px garde ses proportions
+   sur tous les écrans. */
 .photo {
   position: absolute;
   z-index: 0;
   display: block;
-  aspect-ratio: 3 / 4;
   border-radius: 4px;
   object-fit: cover;
 }
 
-@media (min-width: 601px) {
-  .presentation__scene {
-    position: static;
-  }
-
-  .photo--randonnee {
-    left: 2%;
-    top: 6%;
-    width: clamp(110px, 10vw, 165px);
-  }
-
-  .photo--equitation {
-    right: 2%;
-    top: 4%;
-    width: clamp(115px, 11vw, 180px);
-  }
-
-  .photo--moto {
-    left: 8%;
-    bottom: 7%;
-    width: clamp(100px, 9vw, 150px);
-  }
-
-  .photo--voyage {
-    right: 9%;
-    bottom: 5%;
-    width: clamp(115px, 11.5vw, 190px);
-  }
+.photo--equitation {
+  left: 87.65cqi;
+  top: 0;
+  width: 11.89cqi;
+  height: 14.86cqi;
 }
 
-/* Écran large mais très bas (téléphone à l'horizontale) : pas la place pour les photos */
-@media (min-width: 601px) and (max-height: 600px) {
-  .photo {
-    display: none;
-  }
+.photo--randonnee {
+  left: 2.52cqi;
+  top: 0.29cqi;
+  width: 10.59cqi;
+  height: 15.4cqi;
 }
 
-/* Mobile : le titre dépasse davantage du portrait et les photos encadrent le portrait */
+.photo--moto {
+  left: 15.63cqi;
+  top: 22.55cqi;
+  width: 9.53cqi;
+  height: 13.72cqi;
+}
+
+.photo--voyage {
+  left: 80.56cqi;
+  top: 23.38cqi;
+  width: 12.27cqi;
+  height: 17.23cqi;
+}
+
+/* Mobile (600 px et moins) : les photos se répartissent sur tout le premier écran.
+   La scène devient une grille : une bande de photos en haut, le titre, le portrait
+   et le texte au centre, une bande de photos en bas. Les deux bandes se partagent
+   la hauteur libre, donc la taille des photos suit celle de l'écran. */
 @media (max-width: 600px) {
+  .presentation {
+    height: max(calc(100svh - var(--hauteur-entete)), 680px);
+    padding: 24px 0;
+  }
+
+  .presentation > .conteneur {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+  }
+
+  .presentation__scene {
+    flex: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto auto auto minmax(0, 1fr);
+    justify-items: center;
+    padding-top: 0;
+  }
+
+  .presentation__titre,
+  .presentation__portrait,
+  .presentation__texte {
+    grid-column: 1 / -1;
+  }
+
+  .presentation__titre { grid-row: 2; }
+  .presentation__portrait { grid-row: 3; }
+  .presentation__texte { grid-row: 4; }
+
   .presentation__portrait {
     margin-top: -10px;
   }
 
-  .photo--randonnee {
-    left: 0;
-    top: 56px;
-    width: 72px;
-    height: 96px;
+  .photo {
+    position: static;
+    width: auto;
+    max-width: 100%;
+    max-height: 210px;
   }
 
-  .photo--moto {
-    left: 18px;
-    top: 160px;
-    width: 62px;
-    height: 82px;
+  .photo--randonnee {
+    grid-row: 1;
+    grid-column: 1;
+    justify-self: start;
+    align-self: start;
+    height: calc(100% - 16px);
   }
 
   .photo--equitation {
-    right: 0;
-    top: 62px;
-    width: 70px;
-    height: 92px;
+    grid-row: 1;
+    grid-column: 2;
+    justify-self: end;
+    align-self: center;
+    height: 78%;
+    margin-right: 6%;
+  }
+
+  .photo--moto {
+    grid-row: 5;
+    grid-column: 1;
+    justify-self: start;
+    align-self: center;
+    height: 78%;
+    margin-left: 6%;
   }
 
   .photo--voyage {
-    right: 14px;
-    top: 162px;
-    width: 64px;
-    height: 88px;
+    grid-row: 5;
+    grid-column: 2;
+    justify-self: end;
+    align-self: end;
+    height: calc(100% - 16px);
   }
 }
+
 
 /* ---------- Domaines ---------- */
 
