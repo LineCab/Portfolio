@@ -95,10 +95,10 @@
   height: var(--hauteur);
 }
 
-/* Scène collée en haut de l'écran pendant le défilement de la zone */
+/* Scène collée sous l'en-tête pendant le défilement de la zone */
 .scene {
   position: sticky;
-  top: 0;
+  top: var(--hauteur-entete);
   height: var(--hauteur);
   overflow: hidden;
   container-type: size;
@@ -587,8 +587,13 @@
   }
 }
 
-/* Petits téléphones : textes un peu plus compacts pour ne pas toucher les étapes */
+/* Petits téléphones : animation plus haute (voir accueil.js) et textes un peu
+   plus compacts pour ne pas toucher les étapes */
 @media (max-width: 820px) and (max-height: 720px) {
+  .txt {
+    top: 47cqh;
+  }
+
   .txt h3 {
     font-size: 24px;
   }
@@ -596,6 +601,22 @@
   .txt .corps {
     font-size: 14px;
     line-height: 1.5;
+  }
+}
+
+/* Très petits téléphones */
+@media (max-width: 820px) and (max-height: 660px) {
+  .txt h3 {
+    font-size: 22px;
+  }
+
+  .txt .corps {
+    margin-top: 12px;
+    font-size: 13px;
+  }
+
+  .txt .corps + .corps {
+    margin-top: 8px;
   }
 }
 

@@ -4,8 +4,16 @@
 
 /* ---------- Présentation : titre, portrait et photos ---------- */
 
+/* La section remplit l'écran sous l'en-tête et son contenu y est centré */
 .presentation {
-  padding: clamp(24px, 3vw, 40px) 0 clamp(88px, 8.5vw, 120px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(40px, 5vw, 72px) 0;
+}
+
+.presentation > .conteneur {
+  width: 100%;
 }
 
 /* La scène sert de repère aux photos : 1cqi = 1 % de sa largeur */
@@ -34,7 +42,6 @@
   margin-top: clamp(-100px, -5.5vw, -32px);
   border-radius: 4px;
   object-fit: cover;
-  animation: flotter-doux 10s ease-in-out -2s infinite;
 }
 
 .presentation__texte {
@@ -49,14 +56,13 @@
 
 /* Photos dispersées autour du titre. Positions et tailles en % de la largeur de
    la scène (cqi) : la composition de la maquette 1440 px garde ses proportions
-   sur tous les écrans. Elles flottent très légèrement, chacune à son rythme. */
+   sur tous les écrans. */
 .photo {
   position: absolute;
   z-index: 0;
   display: block;
   border-radius: 4px;
   object-fit: cover;
-  animation: flotter 7s ease-in-out infinite;
 }
 
 .photo--equitation {
@@ -71,8 +77,6 @@
   top: 0.29cqi;
   width: 10.59cqi;
   height: 15.4cqi;
-  animation-duration: 8s;
-  animation-delay: -3s;
 }
 
 .photo--moto {
@@ -80,9 +84,6 @@
   top: 22.55cqi;
   width: 9.53cqi;
   height: 13.72cqi;
-  animation-duration: 6.5s;
-  animation-delay: -1.5s;
-  animation-direction: reverse;
 }
 
 .photo--voyage {
@@ -90,49 +91,30 @@
   top: 23.38cqi;
   width: 12.27cqi;
   height: 17.23cqi;
-  animation-duration: 9s;
-  animation-delay: -5s;
-}
-
-@keyframes flotter {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) rotate(0deg);
-  }
-
-  50% {
-    transform: translate3d(0, -6px, 0) rotate(0.8deg);
-  }
-}
-
-@keyframes flotter-doux {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-
-  50% {
-    transform: translate3d(0, -4px, 0);
-  }
 }
 
 /* Mobile : le titre dépasse davantage du portrait et les photos, plus grandes
    que la simple réduction de la maquette, encadrent le portrait */
 @media (max-width: 600px) {
+  /* Pas d'espace au-dessus du titre : la composition reste centrée dans l'écran */
+  .presentation__scene {
+    padding-top: 0;
+  }
+
   .presentation__portrait {
     margin-top: -10px;
   }
 
   .photo--randonnee {
     left: 0;
-    top: 96px;
+    top: 56px;
     width: 72px;
     height: 96px;
   }
 
   .photo--moto {
     left: 18px;
-    top: 200px;
+    top: 160px;
     width: 62px;
     height: 82px;
   }
@@ -140,7 +122,7 @@
   .photo--equitation {
     left: auto;
     right: 0;
-    top: 102px;
+    top: 62px;
     width: 70px;
     height: 92px;
   }
@@ -148,18 +130,12 @@
   .photo--voyage {
     left: auto;
     right: 14px;
-    top: 202px;
+    top: 162px;
     width: 64px;
     height: 88px;
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .photo,
-  .presentation__portrait {
-    animation: none;
-  }
-}
 
 /* ---------- Domaines ---------- */
 

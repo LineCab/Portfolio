@@ -18,6 +18,7 @@ Portfolio de Line Cabaret, designer UI/UX. Site statique en HTML, CSS et JavaScr
     │   ├── menu.js         Menu burger (petits écrans), sur les trois pages
     │   ├── accueil.js      Animation du projet MyIndygo au défilement
     │   └── projets.js      Sommaire qui suit la lecture, vidéos des projets
+    ├── documents/          CV en PDF (boutons « Télécharger mon CV »)
     ├── fonts/
     │   └── archivo-latin.woff2
     ├── images/
@@ -32,6 +33,7 @@ Chaque page charge `global.css` puis sa propre feuille de style. Les couleurs et
 ## Modifier le contenu
 
 - **Textes et liens** : directement dans les fichiers HTML.
+- **CV** : remplacer `assets/documents/CV_Line_Cabaret.pdf` en gardant le même nom.
 - **Photos de la page À propos** : remplacer les fichiers dans `assets/images/a-propos/` en gardant le même nom, ou changer le `src` des balises `<img>`.
 - **Vidéo d'un projet** (page Projets) : remplacer le fichier dans `assets/videos/` (MP4, format 16:9). La vidéo du projet en cours de lecture se lance automatiquement, sans le son, et le bouton rond permet de la mettre en pause.
 

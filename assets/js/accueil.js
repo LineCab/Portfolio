@@ -2,8 +2,8 @@
    Page Accueil : le projet MyIndygo raconté au défilement
    --------------------------------------------------------------------------
    La zone .defilement est haute de 5,5 écrans. Pendant qu'on la parcourt, la
-   scène reste collée en haut de l'écran et la progression « q » (en hauteurs
-   d'écran, de 0 à 4,5) pilote l'animation :
+   scène reste collée sous l'en-tête et la progression « q » (en hauteurs de
+   scène, de 0 à 4,5) pilote l'animation :
      étape 1 → 2 : le téléphone passe de droite à gauche en tournant ;
      étape 2 → 3 : il revient à droite ;
      étape 3 → 4 : il sort de l'écran et l'ordinateur s'ouvre.
@@ -65,6 +65,7 @@
     largeur: 1440, // largeur de la fenêtre
     hauteur: 900,  // hauteur de la scène
     etroit: false, // écran de moins de 820 px
+    entete: 0,     // hauteur de l'en-tête collant, sous lequel la scène se colle
     q: 0           // progression du défilement
   };
   let qFixe = 0;       // progression quand la scène est fixe (animée par les boutons d'étapes)
@@ -82,6 +83,8 @@
     const W = etat.largeur;
     const V = etat.hauteur;
     const narrow = etat.etroit;
+    // Petit téléphone (écran de 720 px de haut ou moins) : animation plus petite et plus haute
+    const court = narrow && V <= 632;
     const reduce = mouvementReduit;
     const q = live ? etat.q : qFixe;
 
@@ -116,7 +119,7 @@
       op = 1 - clamp(t2 * 2.2, 0, 1);
       sc = 1 - 0.25 * t2;
     }
-    if (narrow) sc = sc * 0.5;
+    if (narrow) sc = sc * (court ? 0.44 : 0.5);
     const dy = -5 * arc;
     const dz = reduce ? 0 : -16 * arc;
     const phT = 'translate(-50%, -50%) translate3d(0, ' + dy.toFixed(2) + 'cqh, ' + dz.toFixed(2) + 'cqh) rotateZ(' + rz.toFixed(2) + 'deg) rotateX(8deg) rotateY(' + ry.toFixed(2) + 'deg) scale(' + sc.toFixed(3) + ')';
@@ -127,7 +130,7 @@
     const marge = Math.max(clamp(0.045 * W, 20, 64), W / 2 - 656);
     const txtW = Math.min(0.36 * W, 500);
     const RATIO = 1742 / 1780;
-    const lapH = narrow ? Math.min(0.42 * V, (W - 40) / RATIO) : Math.min(0.8 * V, V - 150, (W - 2 * marge - txtW - 48) / RATIO);
+    const lapH = narrow ? Math.min((court ? 0.36 : 0.42) * V, (W - 40) / RATIO) : Math.min(0.8 * V, V - 150, (W - 2 * marge - txtW - 48) / RATIO);
     const lapW = lapH * RATIO;
     const lapX = narrow ? (W - lapW) / 2 : marge;
     const lapY = narrow ? 0.06 * V : Math.max(16, (V - 110 - lapH) / 2 + 6);
@@ -213,7 +216,7 @@
       zoneH: Math.round(live ? V * 5.5 : V),
       stageH: Math.round(V),
       phX: x.toFixed(1),
-      phTop: narrow ? '30%' : '50%',
+      phTop: narrow ? (court ? '25%' : '30%') : '50%',
       phT,
       phO: op.toFixed(3),
       ecrans: [e0, e1, e2].map((e) => e.toFixed(3)),
@@ -305,7 +308,7 @@
     image = requestAnimationFrame(() => {
       image = null;
       if (!etat.live) return;
-      let q = -zone.getBoundingClientRect().top / etat.hauteur;
+      let q = (etat.entete - zone.getBoundingClientRect().top) / etat.hauteur;
       q = q < 0 ? 0 : (q > 4.5 ? 4.5 : q);
       if (Math.abs(q - etat.q) > 0.0004) {
         etat.q = q;
@@ -316,7 +319,8 @@
 
   function mesurer(premiereFois) {
     const vw = document.documentElement.clientWidth || window.innerWidth || 1440;
-    const vh = window.innerHeight || 900;
+    const entete = parseFloat(getComputedStyle(el.scene).top) || 0;
+    const vh = (window.innerHeight || 900) - entete;
     const live = vh < 2200;
     const V = live ? Math.max(520, vh) : 900;
     // Sur mobile, la barre d'adresse change la hauteur de quelques pixels : on l'ignore
@@ -325,6 +329,7 @@
     etat.largeur = vw;
     etat.hauteur = V;
     etat.etroit = vw < 820;
+    etat.entete = entete;
     rendre();
     requestAnimationFrame(suivreDefilement);
   }
@@ -333,7 +338,7 @@
   function allerA(k) {
     const cible = ARRETS[k];
     if (etat.live) {
-      const haut = zone.getBoundingClientRect().top + window.pageYOffset + cible * etat.hauteur;
+      const haut = zone.getBoundingClientRect().top + window.pageYOffset - etat.entete + cible * etat.hauteur;
       window.scrollTo({ top: Math.round(haut), behavior: mouvementReduit ? 'auto' : 'smooth' });
       return;
     }

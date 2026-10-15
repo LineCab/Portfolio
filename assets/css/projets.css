@@ -37,7 +37,7 @@
 .sommaire {
   container-type: inline-size;
   position: sticky;
-  top: 40px;
+  top: calc(var(--hauteur-entete) + 24px);
   align-self: start;
   display: flex;
   flex-direction: column;
@@ -270,42 +270,33 @@
 }
 
 /* Le court-métrage (format paysage) à gauche, volontairement moins haut que
-   les deux infographies (format portrait) groupées à droite */
+   les deux infographies (format portrait) groupées à droite. Les trois projets
+   partagent les mêmes lignes de grille (image, date, titre, texte, lien) :
+   le court-métrage est aligné en bas des infographies, les dates et titres
+   sont alignés entre eux. */
 .autres__liste {
-  display: flex;
-  align-items: flex-start;
-  gap: 56px clamp(24px, 3vw, 40px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.33fr);
+  grid-template-rows: repeat(5, auto);
+  gap: 14px clamp(24px, 3vw, 40px);
   margin-top: clamp(40px, 4vw, 56px);
 }
 
-.autre--film {
-  flex: 1 1 0;
-  min-width: 0;
-}
-
+.autre,
 .autres__infographies {
-  flex: 1.33 1 0;
-  min-width: 0;
-  display: flex;
-  align-items: flex-start;
-  gap: clamp(16px, 3vw, 40px);
+  grid-row: span 5;
+  display: grid;
+  grid-template-rows: subgrid;
 }
 
 /* Largeurs proportionnelles au format de chaque infographie : elles ont la même hauteur */
-.autre--beeguard {
-  flex: 0.707 1 0;
-  min-width: 0;
+.autres__infographies {
+  grid-template-columns: minmax(0, 0.707fr) minmax(0, 0.621fr);
+  column-gap: clamp(16px, 3vw, 40px);
 }
 
-.autre--numerique {
-  flex: 0.621 1 0;
-  min-width: 0;
-}
-
-.autre {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+.autre--film .autre__media {
+  align-self: end;
 }
 
 .autre__media {
@@ -341,7 +332,8 @@
 }
 
 .autre .lien {
-  align-self: flex-start;
+  justify-self: start;
+  align-self: start;
   color: var(--creme);
 }
 
@@ -366,27 +358,30 @@
 /* Le court-métrage passe au-dessus, les infographies restent côte à côte */
 @media (max-width: 760px) {
   .autres__liste {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .autre--film,
-  .autres__infographies {
-    flex: none;
-  }
-}
-
-/* Écran vraiment étroit : les infographies l'une sous l'autre */
-@media (max-width: 359px) {
-  .autres__infographies {
+    display: flex;
     flex-direction: column;
     gap: 56px;
   }
 
-  .autre--beeguard,
-  .autre--numerique {
-    flex: none;
-    width: 100%;
+  .autre {
+    grid-row: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .autres__infographies {
+    grid-row: auto;
+    grid-template-rows: none;
+    align-items: start;
+    row-gap: 56px;
+  }
+}
+
+/* 400 px et moins : les infographies l'une sous l'autre */
+@media (max-width: 400px) {
+  .autres__infographies {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 

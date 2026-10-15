@@ -52,6 +52,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* Les ancres (#contact…) s'arrêtent sous l'en-tête collant */
+  scroll-padding-top: var(--hauteur-entete);
 }
 
 body {
@@ -199,13 +201,15 @@ a {
 
 /* ---------- En-tête ---------- */
 
-/* Trois colonnes : logo | menu centré sur la page | bouton « Disponible » */
+/* En-tête collant en haut de l'écran, sur toute la largeur. Trois colonnes :
+   logo | menu centré sur la page | bouton « Disponible ». Les marges latérales
+   alignent le contenu sur la grille de 1440 px des sections. */
 .entete {
-  position: relative;
+  position: sticky;
+  top: 0;
   z-index: 20;
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 20px var(--marge);
+  padding: 20px max(var(--marge), calc((100% - 1312px) / 2));
+  background: var(--creme);
   box-sizing: border-box;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
