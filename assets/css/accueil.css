@@ -1,0 +1,610 @@
+/* ==========================================================================
+   Page Accueil
+   ========================================================================== */
+
+/* ---------- Hero ---------- */
+
+.hero {
+  padding-top: clamp(40px, 6vw, 88px);
+  padding-bottom: clamp(80px, 8vw, 120px);
+}
+
+.hero__designer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 0.12em;
+}
+
+.hero__fleche {
+  width: 0.7em;
+  height: 0.7em;
+  color: var(--accent);
+}
+
+.hero__metier {
+  display: block;
+}
+
+.hero__bas {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 32px 64px;
+  margin-top: clamp(20px, 2.4vw, 32px);
+}
+
+/* Nom dans une pastille au contour vert */
+.hero__nom {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  min-height: clamp(56px, 5vw, 72px);
+  padding: 0 clamp(28px, 3vw, 44px);
+  border: 3px solid var(--accent);
+  border-radius: 999px;
+  box-sizing: border-box;
+  font-size: clamp(22px, 2.4vw, 34px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* Le texte remonte à côté du titre sur grand écran */
+.hero__intro {
+  flex: 0 1 585px;
+  margin-top: clamp(-230px, -14vw, 0px);
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.hero__intro .chapo {
+  max-width: 585px;
+}
+
+.hero__boutons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+@media (max-width: 1100px) {
+  .hero__intro {
+    margin-top: 0;
+  }
+}
+
+/* ---------- Projet MyIndygo raconté au défilement ----------
+   accueil.js calcule l'animation et la transmet par des variables CSS
+   (--x, --opacite, --transform…) posées sur chaque élément animé. */
+
+.projet-phare__entete {
+  padding-top: clamp(32px, 3.5vw, 48px);
+  border-top: 1px solid var(--filet);
+}
+
+/* Zone haute de plusieurs écrans : sa hauteur règle la durée de l'animation */
+.defilement {
+  position: relative;
+  height: var(--hauteur);
+}
+
+/* Scène collée en haut de l'écran pendant le défilement de la zone */
+.scene {
+  position: sticky;
+  top: 0;
+  height: var(--hauteur);
+  overflow: hidden;
+  container-type: size;
+}
+
+/* Traits qui suivent le téléphone d'un côté à l'autre */
+.traces {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: min(100%, 1440px);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.traces svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.trace {
+  stroke-dasharray: 1;
+  stroke-dashoffset: var(--decalage);
+  opacity: var(--opacite);
+}
+
+/* Halo lumineux et ombre au sol sous le téléphone */
+.halo {
+  position: absolute;
+  left: var(--x);
+  top: var(--haut);
+  width: 82cqh;
+  height: 82cqh;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0));
+  opacity: var(--opacite);
+}
+
+.ombre-portee {
+  position: absolute;
+  left: var(--x);
+  top: calc(var(--haut) + var(--decalage));
+  width: var(--largeur);
+  height: 4.5cqh;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(closest-side, rgba(25, 22, 19, 0.34), rgba(25, 22, 19, 0));
+  opacity: var(--opacite);
+}
+
+/* Ordinateur portable : le capot s'ouvre à la dernière étape */
+.ordinateur {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--largeur);
+  height: var(--hauteur);
+  opacity: var(--opacite);
+  transform: var(--transform);
+  transform-origin: 50% 70%;
+  pointer-events: none;
+}
+
+.ordinateur__clavier {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 2.6cqh 3.4cqh rgba(25, 22, 19, 0.24));
+}
+
+.ordinateur__dos {
+  position: absolute;
+  inset: 0;
+  transform-origin: 0 0;
+  transform: var(--transform);
+  clip-path: polygon(10.5% 71.2%, 65.7% 42.1%, 58.2% -0.7%, -0.4% 26.3%);
+  background: linear-gradient(150deg, #4B566C 0%, #3A4357 52%, #2D3445 100%);
+  opacity: var(--opacite);
+}
+
+.ordinateur__capot {
+  position: absolute;
+  inset: 0;
+  transform-origin: 0 0;
+  transform: var(--transform);
+  opacity: var(--opacite);
+}
+
+.ordinateur__capot img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.ordinateur__ecran-eteint {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(118deg, #1B1E25 0%, #0C0D11 46%, #16181E 100%);
+  clip-path: polygon(3.2% 26.3%, 57.6% 1%, 64.6% 40%, 10% 68.3%);
+  opacity: var(--opacite);
+}
+
+/* Téléphone en 3D */
+.telephone-scene {
+  position: absolute;
+  inset: 0;
+  perspective: 222cqh;
+  perspective-origin: 50% 45%;
+  opacity: var(--opacite);
+  isolation: isolate;
+  pointer-events: none;
+}
+
+.telephone {
+  position: absolute;
+  left: var(--x);
+  top: var(--haut);
+  width: 32cqh;
+  height: 66cqh;
+  transform-style: preserve-3d;
+  transform: var(--transform);
+}
+
+.telephone__tranche {
+  position: absolute;
+  inset: 0;
+  border-radius: 4.8cqh;
+}
+
+.telephone__tranche:nth-child(1)  { background: #1B1C1F; transform: translateZ(-1.8cqh); }
+.telephone__tranche:nth-child(2)  { background: #222327; transform: translateZ(-1.61cqh); }
+.telephone__tranche:nth-child(3)  { background: #2A2C30; transform: translateZ(-1.42cqh); }
+.telephone__tranche:nth-child(4)  { background: #32343A; transform: translateZ(-1.23cqh); }
+.telephone__tranche:nth-child(5)  { background: #3A3D43; transform: translateZ(-1.04cqh); }
+.telephone__tranche:nth-child(6)  { background: #42454C; transform: translateZ(-0.85cqh); }
+.telephone__tranche:nth-child(7)  { background: #484B53; transform: translateZ(-0.66cqh); }
+.telephone__tranche:nth-child(8)  { background: #4D5058; transform: translateZ(-0.47cqh); }
+.telephone__tranche:nth-child(9)  { background: #50535C; transform: translateZ(-0.28cqh); }
+.telephone__tranche:nth-child(10) { background: #52555E; transform: translateZ(-0.09cqh); }
+.telephone__tranche:nth-child(11) { background: #52555E; transform: translateZ(0.09cqh); }
+.telephone__tranche:nth-child(12) { background: #50535C; transform: translateZ(0.28cqh); }
+.telephone__tranche:nth-child(13) { background: #4D5058; transform: translateZ(0.47cqh); }
+.telephone__tranche:nth-child(14) { background: #484B53; transform: translateZ(0.66cqh); }
+.telephone__tranche:nth-child(15) { background: #42454C; transform: translateZ(0.85cqh); }
+.telephone__tranche:nth-child(16) { background: #3A3D43; transform: translateZ(1.04cqh); }
+.telephone__tranche:nth-child(17) { background: #32343A; transform: translateZ(1.23cqh); }
+.telephone__tranche:nth-child(18) { background: #2A2C30; transform: translateZ(1.42cqh); }
+.telephone__tranche:nth-child(19) { background: #222327; transform: translateZ(1.61cqh); }
+.telephone__tranche:nth-child(20) { background: #1B1C1F; transform: translateZ(1.8cqh); }
+
+.telephone__dos {
+  position: absolute;
+  inset: 0;
+  border-radius: 4.8cqh;
+  background: linear-gradient(150deg, #4A4D54 0%, #33353A 55%, #2B2D31 100%);
+  box-shadow: inset 0 0 0 0.3cqh #26282C;
+  transform: translateZ(-1.9cqh) rotateY(180deg);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.telephone__module {
+  position: absolute;
+  left: 2.2cqh;
+  top: 2.2cqh;
+  width: 13.6cqh;
+  height: 13.6cqh;
+  border-radius: 3.4cqh;
+  background: linear-gradient(145deg, #45484F 0%, #2A2C30 100%);
+  box-shadow: inset 0 0 0 0.25cqh rgba(255, 255, 255, 0.06), 0 0.5cqh 1.2cqh rgba(0, 0, 0, 0.35);
+}
+
+.telephone__objectif {
+  position: absolute;
+  width: 5.4cqh;
+  height: 5.4cqh;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #3A4A66 0, #0B0C10 38%, #1A1B1F 60%, #55585F 63%, #2A2C30 100%);
+}
+
+.telephone__objectif--1 { left: 0.9cqh; top: 0.9cqh; }
+.telephone__objectif--2 { left: 0.9cqh; top: 7.3cqh; }
+.telephone__objectif--3 { left: 7.3cqh; top: 4.1cqh; }
+
+.telephone__flash {
+  position: absolute;
+  left: 8.6cqh;
+  top: 0.9cqh;
+  width: 1.6cqh;
+  height: 1.6cqh;
+  border-radius: 50%;
+  background: #E9E4D6;
+  opacity: 0.8;
+}
+
+.telephone__face {
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  padding: 1.15cqh;
+  border-radius: 4.8cqh;
+  background: #060607;
+  box-shadow: inset 0 0 0 0.3cqh #45484F;
+  transform: translateZ(1.9cqh);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.telephone__ecran {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 3.65cqh;
+  background: #000000;
+}
+
+.telephone__capture {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: var(--opacite);
+}
+
+.telephone__reflet {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, rgba(255, 255, 255, 0) 36%, rgba(255, 255, 255, 0.16) 47%, rgba(255, 255, 255, 0) 58%);
+  background-size: 260% 100%;
+  background-position: var(--position) 0;
+}
+
+/* Annotations : un trait relie chaque bulle à un point de l'écran du téléphone */
+.annotations {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  display: var(--affichage);
+}
+
+.annotation__trait {
+  stroke: var(--accent);
+  stroke-dasharray: 1;
+  stroke-dashoffset: var(--decalage);
+}
+
+.annotations circle {
+  fill: var(--accent);
+  opacity: var(--opacite);
+}
+
+.bulle {
+  position: absolute;
+  left: var(--gauche);
+  top: var(--haut);
+  width: var(--largeur);
+  margin: 0;
+  box-sizing: border-box;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: #FFFFFF;
+  box-shadow: 0 14px 34px rgba(25, 22, 19, 0.1);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--encre);
+  transform: translateY(-50%) translateX(var(--decalage));
+  opacity: var(--opacite);
+  display: var(--affichage);
+}
+
+/* Textes de chaque étape, alternativement à gauche et à droite */
+.txt {
+  position: absolute;
+  top: 50%;
+  width: min(36vw, 500px);
+  transform: translateY(-50%) translateY(var(--y));
+  opacity: var(--opacite);
+  pointer-events: var(--clic);
+}
+
+.txt--gauche {
+  left: max(var(--marge), calc(50% - 656px));
+}
+
+.txt--droite {
+  right: max(var(--marge), calc(50% - 656px));
+}
+
+.txt h3 {
+  margin: 0;
+  font-size: clamp(30px, 3.6vw, 52px);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+}
+
+.txt .surtitre + h3 {
+  margin-top: 12px;
+}
+
+.txt .corps {
+  margin: 18px 0 0;
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--texte-doux);
+}
+
+.txt .corps + .corps {
+  margin-top: 12px;
+}
+
+/* Boutons d'étapes en bas de la scène */
+.etapes {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  z-index: 10;
+  display: flex;
+  gap: 10px;
+  transform: translateX(-50%);
+}
+
+.etape {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  width: clamp(72px, 10vw, 150px);
+  min-height: 44px;
+  margin: 0;
+  padding: 10px 2px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  color: #6B655C;
+  transition: color .3s ease;
+}
+
+.etape[aria-current="step"],
+.etape:hover {
+  color: var(--encre);
+}
+
+.etape:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.etape__barre {
+  position: relative;
+  display: block;
+  height: 2px;
+  overflow: hidden;
+  background: var(--filet);
+}
+
+.etape__remplissage {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: var(--remplissage);
+  background: var(--accent);
+}
+
+.etape__nom {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+/* « Faites défiler », disparaît dès que l'on commence à défiler */
+.indice {
+  position: absolute;
+  right: max(var(--marge), calc(50% - 656px));
+  bottom: 30px;
+  z-index: 10;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: var(--gris);
+  opacity: var(--opacite);
+}
+
+/* ---------- Envie d'en voir plus ---------- */
+
+.plus {
+  padding-top: clamp(48px, 5vw, 72px);
+}
+
+.plus__carte {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 32px 64px;
+  padding: clamp(36px, 5vw, 72px) clamp(24px, 4.5vw, 64px);
+  border-radius: clamp(16px, 2vw, 28px);
+  background: var(--accent);
+  color: var(--encre);
+}
+
+.plus__titre {
+  flex: 1 1 520px;
+  font-size: clamp(44px, 7.4vw, 80px);
+}
+
+.plus__texte {
+  flex: 0 1 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.plus__texte .chapo {
+  font-weight: 500;
+}
+
+/* ---------- À propos ---------- */
+
+.apropos {
+  padding: clamp(96px, 9vw, 136px) 0;
+}
+
+.apropos__contenu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 32px 80px;
+}
+
+.apropos__texte {
+  flex: 0 1 620px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.apropos__phrase {
+  margin: 0;
+  font-size: clamp(22px, 2.2vw, 32px);
+  font-weight: 600;
+  line-height: 1.28;
+  letter-spacing: -0.02em;
+}
+
+/* Mot surligné en vert */
+.surligne {
+  padding: 0 0.15em;
+  background: var(--accent);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 820px) {
+  .txt {
+    left: 20px;
+    right: 20px;
+    width: auto;
+    top: auto;
+    bottom: 84px;
+    transform: none;
+  }
+
+  .txt h3 {
+    font-size: 28px;
+  }
+
+  .txt .corps {
+    font-size: 15px;
+  }
+
+  .cache-mobile {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .etape {
+    transition: none;
+  }
+}

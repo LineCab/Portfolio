@@ -1,0 +1,347 @@
+/* ==========================================================================
+   Page Projets
+   ========================================================================== */
+
+/* ---------- Introduction ---------- */
+
+.intro-projets {
+  padding-top: clamp(40px, 6vw, 88px);
+  padding-bottom: clamp(64px, 6vw, 96px);
+}
+
+.intro-projets__texte {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: clamp(24px, 3vw, 40px);
+}
+
+.intro-projets__texte .chapo {
+  flex: 0 1 585px;
+}
+
+/* ---------- Projets design : sommaire + liste ---------- */
+
+.projets {
+  padding-bottom: clamp(96px, 9vw, 136px);
+}
+
+.grille {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  gap: 48px 64px;
+  padding-top: clamp(32px, 3.5vw, 48px);
+  border-top: 1px solid var(--filet);
+}
+
+/* Sommaire collant : le projet en cours de lecture est mis en avant (voir projets.js) */
+.sommaire {
+  position: sticky;
+  top: 40px;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.sommaire__corps {
+  display: flex;
+  gap: 22px;
+}
+
+.sommaire__barre {
+  position: relative;
+  flex: 0 0 2px;
+  border-radius: 2px;
+  background: rgba(25, 22, 19, 0.14);
+}
+
+.sommaire__progression {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: var(--progression, 0%);
+  border-radius: 2px;
+  background: var(--accent);
+}
+
+.sommaire__liste {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sommaire__liste a {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 48px;
+  font-size: clamp(26px, 2.6vw, 38px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  text-decoration: none;
+  color: #857D71;
+  transition: color .3s ease;
+}
+
+.sommaire__liste a[aria-current="location"],
+.sommaire__liste a:hover {
+  color: var(--encre);
+}
+
+.sommaire__point {
+  flex: 0 0 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0;
+}
+
+.sommaire__liste a[aria-current="location"] .sommaire__point {
+  opacity: 1;
+}
+
+.sommaire__autres {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+  min-height: 44px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gris);
+}
+
+.projets__liste {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(96px, 9vw, 136px);
+}
+
+.projet {
+  scroll-margin-top: 40px;
+}
+
+.projet__media {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 6px;
+}
+
+.projet__media--indygo { background: #152E55; }
+.projet__media--holoforge { background: #16120E; }
+.projet__media--dose { background: #FBEDB8; }
+.projet__media--drag { background: #381261; }
+
+/* Vidéo éventuelle d'un projet : elle remplit le cadre */
+.projet__media video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Bouton lecture / pause de la vidéo */
+.lecture {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(25, 22, 19, 0.55);
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: background .2s ease;
+}
+
+.lecture:hover {
+  background: rgba(25, 22, 19, 0.82);
+}
+
+.lecture:focus-visible {
+  outline: 2px solid #FFFFFF;
+  outline-offset: 2px;
+}
+
+.lecture__pause,
+.lecture.joue .lecture__play {
+  display: none;
+}
+
+.lecture.joue .lecture__pause {
+  display: block;
+}
+
+.projet__infos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px 56px;
+  margin-top: 28px;
+}
+
+.projet__titres {
+  flex: 1 1 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.projet__titre {
+  margin: 0;
+  font-size: clamp(32px, 3.4vw, 48px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.projet__type {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.projet__description {
+  flex: 1.3 1 340px;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.projet__texte {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--texte-doux);
+}
+
+/* Lien souligné « Voir le projet », la flèche part en diagonale au survol */
+.lien {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--encre);
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 6px;
+}
+
+.lien svg {
+  transition: transform .25s ease;
+}
+
+.lien:hover svg {
+  transform: translate(2px, -2px);
+}
+
+/* ---------- Autres projets (fond sombre) ---------- */
+
+.autres {
+  background: var(--encre);
+  color: var(--creme);
+  padding: clamp(96px, 9vw, 136px) 0;
+}
+
+.autres__liste {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 56px 40px;
+  margin-top: clamp(40px, 4vw, 56px);
+}
+
+.autre {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Largeurs proportionnelles au format de chaque image */
+.autre--film { flex: 1.529 1 306px; }
+.autre--beeguard { flex: 0.707 1 141px; }
+.autre--numerique { flex: 0.621 1 124px; }
+
+.autre__media {
+  margin: 0;
+}
+
+.autre__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+
+.autre__date {
+  margin-top: 6px;
+  color: var(--gris-clair);
+}
+
+.autre__titre {
+  margin: 0;
+  font-size: clamp(24px, 2.3vw, 32px);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+}
+
+.autre__texte {
+  margin: 0;
+  max-width: 36em;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--gris-clair);
+}
+
+.autre .lien {
+  align-self: flex-start;
+  color: var(--creme);
+}
+
+/* ---------- Contact : filet de séparation avec la section sombre au-dessus ---------- */
+
+.contact {
+  border-top: 1px solid rgba(243, 238, 229, 0.12);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 900px) {
+  .grille {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cache-mobile {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sommaire__liste a,
+  .lien svg {
+    transition: none;
+  }
+}

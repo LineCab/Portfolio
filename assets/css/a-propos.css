@@ -1,0 +1,230 @@
+/* ==========================================================================
+   Page À propos
+   ========================================================================== */
+
+/* ---------- Présentation : titre, portrait et photos ---------- */
+
+.presentation {
+  padding: clamp(24px, 3vw, 40px) 0 clamp(88px, 8.5vw, 120px);
+}
+
+.presentation__scene {
+  position: relative;
+  padding-top: clamp(40px, 6vw, 96px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.presentation__titre {
+  position: relative;
+  z-index: 1;
+  font-size: clamp(60px, 14.5vw, 212px);
+}
+
+.presentation__portrait {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: clamp(150px, 14vw, 200px);
+  aspect-ratio: 4 / 5;
+  margin-top: clamp(-100px, -5.5vw, -32px);
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.presentation__texte {
+  margin: clamp(28px, 3vw, 44px) 0 0;
+  max-width: 40em;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.7;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Photos dispersées autour du titre */
+.photo {
+  position: absolute;
+  z-index: 0;
+  display: block;
+  margin-top: clamp(-100px, -5.5vw, -32px);
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.photo--equitation {
+  left: 1150px;
+  top: 79px;
+  width: 156px;
+  height: 195px;
+}
+
+.photo--randonnee {
+  left: 33px;
+  top: 83px;
+  width: 139px;
+  height: 202px;
+}
+
+.photo--moto {
+  left: 205px;
+  top: 375px;
+  width: 125px;
+  height: 180px;
+}
+
+.photo--voyage {
+  left: 1057px;
+  top: 386px;
+  width: 161px;
+  height: 226px;
+}
+
+/* Sur petit écran, les photos dispersées chevaucheraient le titre */
+@media (max-width: 900px) {
+  .photo {
+    display: none;
+  }
+}
+
+/* ---------- Domaines ---------- */
+
+.domaines {
+  padding: 0 0 clamp(88px, 9vw, 136px);
+  text-align: center;
+}
+
+.domaines__liste {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  max-width: 1040px;
+  margin: 28px auto 0;
+  padding: 0;
+  list-style: none;
+}
+
+.etiquette {
+  display: inline-flex;
+  align-items: center;
+  min-height: clamp(48px, 4.4vw, 64px);
+  padding: 0 clamp(18px, 2vw, 28px);
+  border: 1.5px solid var(--encre);
+  border-radius: 999px;
+  box-sizing: border-box;
+  font-size: 28px;
+  font-weight: 500;
+  font-stretch: 112%;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.etiquette--active {
+  gap: 12px;
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--encre);
+  font-size: clamp(18px, 2.2vw, 32px);
+}
+
+.etiquette--active > span {
+  font-size: 28px;
+}
+
+/* ---------- Parcours ---------- */
+
+.parcours {
+  background: #ECE5D9;
+  padding: clamp(88px, 9vw, 136px) 0;
+}
+
+.parcours__entete {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px 40px;
+}
+
+.parcours__groupe {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 48px;
+  margin-top: clamp(48px, 5vw, 64px);
+}
+
+.parcours__groupe--experiences {
+  margin-top: clamp(48px, 5vw, 72px);
+}
+
+.parcours__categorie {
+  flex: 0 0 220px;
+  padding-top: 30px;
+}
+
+.parcours__liste {
+  flex: 1 1 560px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-bottom: 1px solid var(--filet);
+}
+
+.ligne {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 32px;
+  padding: 26px 0;
+  border-top: 1px solid var(--filet);
+}
+
+.ligne__date {
+  flex: 0 0 150px;
+}
+
+.ligne__contenu {
+  flex: 1 1 320px;
+  min-width: 0;
+}
+
+.ligne__titre {
+  margin: 0;
+  font-size: clamp(24px, 2.6vw, 36px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.ligne__lieu {
+  font-weight: 400;
+  color: var(--gris);
+}
+
+.ligne__detail {
+  margin: 6px 0 0;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--gris);
+}
+
+.parcours__groupe--experiences .ligne__detail {
+  max-width: 600px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 14px;
+  border: 1.5px solid var(--encre);
+  border-radius: 999px;
+  box-sizing: border-box;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+}
