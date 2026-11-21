@@ -128,9 +128,30 @@
   gap: clamp(96px, 9vw, 136px);
 }
 
+/* isolation : le fond ombré (::before, z-index -1) passe derrière le contenu de la carte
+   sans disparaître sous le fond de la page */
 .projet {
+  --debord: clamp(10px, 1.4vw, 18px);
   position: relative;
+  isolation: isolate;
   scroll-margin-top: 40px;
+}
+
+/* Au survol, la carte se soulève : une ombre douce apparaît tout autour */
+.projet::before {
+  content: '';
+  position: absolute;
+  inset: calc(-1 * var(--debord));
+  z-index: -1;
+  border-radius: 14px;
+  background: var(--creme);
+  box-shadow: 0 18px 48px rgba(25, 22, 19, 0.12), 0 2px 8px rgba(25, 22, 19, 0.06);
+  opacity: 0;
+  transition: opacity .3s ease;
+}
+
+.projet:hover::before {
+  opacity: 1;
 }
 
 /* Toute la carte ouvre la fenêtre « En savoir plus » : le bouton du titre
@@ -147,12 +168,13 @@
   cursor: pointer;
 }
 
+/* La zone cliquable couvre la carte et son ombre ; au clavier, un contour vert la signale */
 .projet__ouvrir::after {
   content: '';
   position: absolute;
-  inset: 0;
+  inset: calc(-1 * var(--debord));
   z-index: 1;
-  border-radius: 6px;
+  border-radius: 14px;
 }
 
 .projet__ouvrir:focus-visible {
@@ -161,7 +183,6 @@
 
 .projet__ouvrir:focus-visible::after {
   outline: 2px solid var(--accent);
-  outline-offset: 10px;
 }
 
 .projet__media {
@@ -191,7 +212,7 @@
   transform: scale(1.03);
 }
 
-/* Pastille « En savoir plus » : au survol sur ordinateur, toujours visible sur écran tactile */
+/* Pastille « En savoir plus » : au survol, sur ordinateur seulement (en mobile, c'est le bouton plus bas) */
 .projet__indice {
   position: absolute;
   left: 14px;
@@ -219,10 +240,19 @@
   transform: none;
 }
 
-@media (hover: none) {
+/* Bouton « En savoir plus » sous le texte, en format mobile seulement. Toute la carte
+   restant cliquable, il est purement visuel (masqué aux lecteurs d'écran). */
+.projet__plus {
+  display: none;
+}
+
+@media (hover: none), (max-width: 760px) {
+  .projet__plus {
+    display: inline-flex;
+  }
+
   .projet__indice {
-    opacity: 1;
-    transform: none;
+    display: none;
   }
 }
 
@@ -750,7 +780,8 @@ html:has(.fenetre[open]) {
   .lien svg,
   .fenetre__fermer,
   .projet__media video,
-  .projet__indice {
+  .projet__indice,
+  .projet::before {
     transition: none;
   }
 
