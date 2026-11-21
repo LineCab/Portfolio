@@ -129,7 +129,39 @@
 }
 
 .projet {
+  position: relative;
   scroll-margin-top: 40px;
+}
+
+/* Toute la carte ouvre la fenêtre « En savoir plus » : le bouton du titre
+   s'étend sur la carte entière (vidéo, titre et texte) */
+.projet__ouvrir {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.projet__ouvrir::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: 6px;
+}
+
+.projet__ouvrir:focus-visible {
+  outline: none;
+}
+
+.projet__ouvrir:focus-visible::after {
+  outline: 2px solid var(--accent);
+  outline-offset: 10px;
 }
 
 .projet__media {
@@ -145,18 +177,59 @@
 .projet__media--dose { background: #FBEDB8; }
 .projet__media--drag { background: #381261; }
 
-/* Vidéo du projet : elle remplit le cadre */
+/* Vidéo du projet : elle remplit le cadre et grossit légèrement au survol de la carte */
 .projet__media video {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform .6s ease;
 }
 
-/* Bouton lecture / pause de la vidéo */
+.projet:hover .projet__media video {
+  transform: scale(1.03);
+}
+
+/* Pastille « En savoir plus » : au survol sur ordinateur, toujours visible sur écran tactile */
+.projet__indice {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  box-sizing: border-box;
+  background: var(--creme);
+  color: var(--encre);
+  font-size: 14px;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .25s ease, transform .25s ease;
+  pointer-events: none;
+}
+
+.projet:hover .projet__indice,
+.projet:has(.projet__ouvrir:focus-visible) .projet__indice {
+  opacity: 1;
+  transform: none;
+}
+
+@media (hover: none) {
+  .projet__indice {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Bouton lecture / pause de la vidéo, au-dessus de la zone cliquable de la carte */
 .lecture {
   position: absolute;
+  z-index: 2;
   right: 14px;
   bottom: 14px;
   display: flex;
@@ -675,8 +748,14 @@ html:has(.fenetre[open]) {
 @media (prefers-reduced-motion: reduce) {
   .sommaire__liste a,
   .lien svg,
-  .fenetre__fermer {
+  .fenetre__fermer,
+  .projet__media video,
+  .projet__indice {
     transition: none;
+  }
+
+  .projet:hover .projet__media video {
+    transform: none;
   }
 
   .fenetre[open],
