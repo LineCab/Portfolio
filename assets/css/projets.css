@@ -212,11 +212,65 @@
   transform: scale(1.03);
 }
 
-/* Pastille « En savoir plus » en bas à droite de la carte (sous la description), au survol,
-   sur ordinateur seulement ; en mobile, c'est le bouton sous le texte */
-.projet__indice {
-  align-self: flex-end;
+/* Bas de la description, calé en bas de la carte : logos des logiciels à gauche,
+   pastille « En savoir plus » à droite */
+.projet__bas {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
   margin-top: auto;
+}
+
+/* « Logiciels : » suivi des logos, à gauche du bas de la carte */
+.projet__logiciels {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+}
+
+.projet__logiciels-titre {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* Logiciels utilisés (carte et fenêtre) : un logo par tuile */
+.projet__outils,
+.fenetre__outils {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.projet__outils li,
+.fenetre__outils li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(25, 22, 19, 0.08);
+  border-radius: 10px;
+  box-sizing: border-box;
+  background: #FFFFFF;
+}
+
+.projet__outils img,
+.fenetre__outils img {
+  display: block;
+}
+
+/* Pastille « En savoir plus » : au survol, sur ordinateur seulement ;
+   en mobile, c'est le bouton sous les logos */
+.projet__indice {
+  margin-left: auto;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -508,6 +562,21 @@ html:has(.fenetre[open]) {
   color: var(--gris);
 }
 
+/* « Logiciels : » suivi des logos, sous le texte de contexte */
+.fenetre__logiciels {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  margin-top: 20px;
+}
+
+.fenetre__texte .fenetre__logiciels-titre {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--encre);
+}
+
 .fenetre__texte .lien {
   margin-top: 14px;
 }
@@ -659,33 +728,24 @@ html:has(.fenetre[open]) {
   padding: clamp(96px, 9vw, 136px) 0;
 }
 
-/* Le court-métrage (format paysage) à gauche, volontairement moins haut que
-   les deux infographies (format portrait) groupées à droite. Les trois projets
-   partagent deux lignes de grille : les images (le court-métrage est aligné en
-   bas des infographies), puis les textes, qui commencent tous à la même hauteur. */
+/* Les deux infographies, alignées à gauche sous le titre, sur la largeur de la
+   colonne des projets design (8 colonnes sur 12, comme .grille). Largeurs
+   proportionnelles à leur format : elles ont la même hauteur. Elles partagent
+   deux lignes de grille (images, puis textes), donc les titres commencent à la
+   même hauteur. */
 .autres__liste {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.33fr);
+  grid-template-columns: minmax(0, 0.707fr) minmax(0, 0.621fr);
   grid-template-rows: auto auto;
-  gap: 20px clamp(24px, 3vw, 40px);
+  gap: 20px clamp(16px, 3vw, 40px);
+  width: calc((100% - 64px) * 8 / 12);
   margin-top: clamp(40px, 4vw, 56px);
 }
 
-.autre,
-.autres__infographies {
+.autre {
   grid-row: span 2;
   display: grid;
   grid-template-rows: subgrid;
-}
-
-/* Largeurs proportionnelles au format de chaque infographie : elles ont la même hauteur */
-.autres__infographies {
-  grid-template-columns: minmax(0, 0.707fr) minmax(0, 0.621fr);
-  column-gap: clamp(16px, 3vw, 40px);
-}
-
-.autre--film .autre__media {
-  align-self: end;
 }
 
 .autre__media {
@@ -718,18 +778,6 @@ html:has(.fenetre[open]) {
   letter-spacing: -0.03em;
 }
 
-.autre__texte {
-  margin: 0;
-  max-width: 36em;
-  font-size: 16px;
-  line-height: 1.6;
-  color: var(--gris-clair);
-}
-
-.autre .lien {
-  color: var(--creme);
-}
-
 /* ---------- Contact : filet de séparation avec la section sombre au-dessus ---------- */
 
 .contact {
@@ -746,10 +794,14 @@ html:has(.fenetre[open]) {
   .cache-mobile {
     display: none;
   }
+
+  .autres__liste {
+    width: auto;
+  }
 }
 
-/* Le court-métrage passe au-dessus, les infographies restent côte à côte */
-@media (max-width: 760px) {
+/* 400 px et moins : les infographies l'une sous l'autre */
+@media (max-width: 400px) {
   .autres__liste {
     display: flex;
     flex-direction: column;
@@ -757,24 +809,9 @@ html:has(.fenetre[open]) {
   }
 
   .autre {
-    grid-row: auto;
     display: flex;
     flex-direction: column;
     gap: 20px;
-  }
-
-  .autres__infographies {
-    grid-row: auto;
-    grid-template-rows: none;
-    align-items: start;
-    row-gap: 56px;
-  }
-}
-
-/* 400 px et moins : les infographies l'une sous l'autre */
-@media (max-width: 400px) {
-  .autres__infographies {
-    grid-template-columns: minmax(0, 1fr);
   }
 }
 
