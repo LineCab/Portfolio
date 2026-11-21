@@ -261,6 +261,290 @@
   transform: translate(2px, -2px);
 }
 
+/* ---------- Fenêtre « En savoir plus » (voir projets.js) ---------- */
+
+/* La page ne défile plus derrière la fenêtre ouverte. La place de la barre de
+   défilement est gardée (pas de décalage) et prend la couleur de la page assombrie
+   par le fond de la fenêtre (crème sous un voile encre à 55 %). */
+html:has(.fenetre[open]) {
+  overflow: hidden;
+  scrollbar-gutter: stable;
+  background: #7B7771;
+}
+
+/* Le contenu remplit toute la fenêtre : un clic sur la fenêtre elle-même est un clic sur le fond */
+.fenetre {
+  width: min(1120px, 100% - 2 * var(--marge));
+  max-width: none;
+  max-height: calc(100% - 2 * clamp(16px, 3vw, 40px));
+  margin: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: var(--creme);
+  color: var(--encre);
+  box-shadow: 0 32px 80px rgba(25, 22, 19, 0.28);
+}
+
+.fenetre[open] {
+  display: flex;
+  flex-direction: column;
+  animation: fenetre-entree .3s ease;
+}
+
+.fenetre::backdrop {
+  background: rgba(25, 22, 19, 0.55);
+  backdrop-filter: blur(4px);
+}
+
+.fenetre[open]::backdrop {
+  animation: fenetre-fondu .3s ease;
+}
+
+@keyframes fenetre-entree {
+  from { opacity: 0; transform: translateY(16px); }
+}
+
+@keyframes fenetre-fondu {
+  from { opacity: 0; }
+}
+
+/* Croix de fermeture : elle reste en haut à droite quand le contenu défile.
+   Son fond, de la couleur de la fenêtre, masque le contenu qui passe dessous. */
+.fenetre__fermer {
+  position: absolute;
+  top: clamp(10px, 2.2vw, 28px);
+  right: clamp(10px, 2.2vw, 28px);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--creme);
+  color: var(--encre);
+  cursor: pointer;
+  transition: background .2s ease;
+}
+
+.fenetre__fermer:hover {
+  background: #E2DDD4;
+}
+
+.fenetre__fermer:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Zone qui défile. Les tailles en cqi suivent la largeur de la fenêtre, pas celle de l'écran. */
+.fenetre__contenu {
+  container-type: inline-size;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: clamp(64px, 7vw, 88px) clamp(24px, 6vw, 80px) clamp(40px, 6vw, 80px);
+}
+
+/* Titre et contexte à gauche, photo de présentation à droite */
+.fenetre__intro {
+  display: grid;
+  gap: 40px clamp(32px, 7cqi, 88px);
+  align-items: center;
+}
+
+.fenetre__intro:has(> .fenetre__photo) {
+  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+}
+
+.fenetre__titre {
+  margin: 0;
+  font-size: clamp(40px, 8.5cqi, 96px);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+.fenetre__surtitre {
+  margin-top: 14px;
+  font-size: 15px;
+}
+
+/* Titres « Contexte », « Processus », « Visuels » */
+.fenetre__rubrique {
+  margin: clamp(56px, 9cqi, 104px) 0 clamp(20px, 2.6cqi, 28px);
+  font-size: clamp(28px, 4.4cqi, 48px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+.fenetre__intro .fenetre__rubrique {
+  margin-top: clamp(40px, 6cqi, 72px);
+}
+
+.fenetre__texte p {
+  max-width: 60ch;
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--texte-doux);
+}
+
+.fenetre__texte .fenetre__note {
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--gris);
+}
+
+.fenetre__texte .lien {
+  margin-top: 14px;
+}
+
+.fenetre__photo {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Processus : trois étapes numérotées, reliées par des pointillés */
+.etapes {
+  --ecart: clamp(28px, 4cqi, 48px);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px var(--ecart);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.etape {
+  position: relative;
+}
+
+.etape__numero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--accent);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Pointillés du numéro jusqu'à l'étape suivante (tirets entiers grâce à « space ») */
+.etape:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 28px;
+  left: 80px;
+  right: calc(20px - var(--ecart));
+  height: 4px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='4'%3E%3Cpath d='M2 2h10' stroke='%23D3CDC3' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E") 0 0 / 36px 4px space no-repeat;
+}
+
+.etape__texte {
+  margin: 24px 0 0;
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--texte-doux);
+}
+
+/* Visuels : rangées d'images de même hauteur qui remplissent toute la largeur.
+   Chaque image prend une largeur proportionnelle à son format (--r = largeur / hauteur). */
+.mosaique {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mosaique__rangee {
+  display: flex;
+  gap: 12px;
+}
+
+.mosaique__rangee img {
+  flex: var(--r) 1 0;
+  min-width: 0;
+  height: auto;
+  border-radius: 6px;
+  background: #E7E2D9;
+}
+
+/* Fenêtre étroite : photo sous le texte, étapes l'une sous l'autre */
+@container (max-width: 720px) {
+  .fenetre__intro:has(> .fenetre__photo) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .fenetre__photo {
+    justify-self: center;
+    max-width: 420px;
+  }
+}
+
+@container (max-width: 640px) {
+  .etapes {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 28px;
+  }
+
+  .etape {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr);
+    column-gap: 18px;
+    align-items: start;
+  }
+
+  .etape__numero {
+    width: 48px;
+    height: 48px;
+    font-size: 22px;
+  }
+
+  .etape__texte {
+    margin: 0;
+    padding-top: 10px;
+  }
+
+  .etape:not(:last-child)::after {
+    top: 58px;
+    bottom: -18px;
+    left: 22px;
+    right: auto;
+    width: 4px;
+    height: auto;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='36'%3E%3Cpath d='M2 2v10' stroke='%23D3CDC3' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E") 0 0 / 4px 36px no-repeat space;
+  }
+}
+
+/* Très étroite : les images en hauteur vont par deux (recadrées en 3:4 depuis le haut),
+   les images en largeur prennent toute la ligne */
+@container (max-width: 560px) {
+  .mosaique__rangee {
+    flex-wrap: wrap;
+  }
+
+  .mosaique__rangee img {
+    flex: 1 1 100%;
+  }
+
+  .mosaique__rangee .mosaique__portrait {
+    flex-basis: calc(50% - 6px);
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    object-position: top;
+  }
+}
+
 /* ---------- Autres projets (fond sombre) ---------- */
 
 .autres {
@@ -390,7 +674,13 @@
 
 @media (prefers-reduced-motion: reduce) {
   .sommaire__liste a,
-  .lien svg {
+  .lien svg,
+  .fenetre__fermer {
     transition: none;
+  }
+
+  .fenetre[open],
+  .fenetre[open]::backdrop {
+    animation: none;
   }
 }

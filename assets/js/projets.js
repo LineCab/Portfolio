@@ -5,6 +5,9 @@
    - Vidéos : si une balise <video> est ajoutée dans le cadre d'un projet,
      la vidéo du projet en cours se lance (sans le son) et les autres se
      mettent en pause. Le bouton rond permet de la lire ou de l'arrêter.
+   - Fenêtres « En savoir plus » : le bouton ouvre la fenêtre <dialog> qu'il
+     désigne (aria-controls). Elle se ferme avec la croix, Échap ou un clic
+     à l'extérieur.
    ========================================================================== */
 
 (function () {
@@ -130,4 +133,30 @@
   window.addEventListener('scroll', mettreAJour, { passive: true });
   window.addEventListener('resize', mettreAJour);
   mettreAJour();
+})();
+
+// ---------- Fenêtres « En savoir plus » ----------
+
+(function () {
+  document.querySelectorAll('[aria-haspopup="dialog"][aria-controls]').forEach((bouton) => {
+    const fenetre = document.getElementById(bouton.getAttribute('aria-controls'));
+    if (!fenetre || typeof fenetre.showModal !== 'function') return;
+    bouton.addEventListener('click', () => fenetre.showModal());
+  });
+
+  document.querySelectorAll('.fenetre').forEach((fenetre) => {
+    const croix = fenetre.querySelector('.fenetre__fermer');
+    if (croix) croix.addEventListener('click', () => fenetre.close());
+
+    // Le contenu remplit la fenêtre : si la cible du clic est la fenêtre elle-même,
+    // c'est le fond qui a été cliqué. Le clic doit aussi commencer sur le fond,
+    // pour ne pas fermer la fenêtre après une sélection de texte qui déborde.
+    let clicSurLeFond = false;
+    fenetre.addEventListener('pointerdown', (evenement) => {
+      clicSurLeFond = evenement.target === fenetre;
+    });
+    fenetre.addEventListener('click', (evenement) => {
+      if (clicSurLeFond && evenement.target === fenetre) fenetre.close();
+    });
+  });
 })();

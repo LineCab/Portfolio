@@ -154,6 +154,12 @@ a {
   font-weight: 600;
   text-decoration: none;
   transition: transform .25s ease;
+  /* Même apparence sur une balise <button> que sur un lien */
+  margin: 0;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  cursor: pointer;
 }
 
 .btn:hover {
