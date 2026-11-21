@@ -212,11 +212,11 @@
   transform: scale(1.03);
 }
 
-/* Pastille « En savoir plus » : au survol, sur ordinateur seulement (en mobile, c'est le bouton plus bas) */
+/* Pastille « En savoir plus » en bas à droite de la carte (sous la description), au survol,
+   sur ordinateur seulement ; en mobile, c'est le bouton sous le texte */
 .projet__indice {
-  position: absolute;
-  left: 14px;
-  bottom: 14px;
+  align-self: flex-end;
+  margin-top: auto;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -224,8 +224,8 @@
   padding: 0 18px;
   border-radius: 999px;
   box-sizing: border-box;
-  background: var(--accent);
-  color: var(--encre);
+  border: 1.5px solid var(--accent);
+  color: var(--accent);
   font-size: 14px;
   font-weight: 600;
   opacity: 0;
@@ -246,12 +246,14 @@
   display: none;
 }
 
+/* En mobile, ni pastille ni ombre : le bouton suffit */
 @media (hover: none), (max-width: 760px) {
   .projet__plus {
     display: inline-flex;
   }
 
-  .projet__indice {
+  .projet__indice,
+  .projet::before {
     display: none;
   }
 }
@@ -295,11 +297,12 @@
   display: block;
 }
 
+/* stretch : la description prend toute la hauteur, sa pastille se cale en bas */
 .projet__infos {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: stretch;
   gap: 20px 56px;
   margin-top: 28px;
 }
